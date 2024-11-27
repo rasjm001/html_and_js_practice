@@ -1,4 +1,4 @@
-console.log('utilising this canvas')
+//console.log('utilising this canvas')
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -111,6 +111,24 @@ return colour_to_return
 }
 
 
+var mouse = {
+    x: undefined,
+    y: undefined
+}
+
+window.addEventListener('mousemove', function(event){
+mouse.x = event.x;
+mouse.y = event.y;
+//console.log(mouse);
+})
+
+
+
+
+
+
+
+
 
 //create an arc or circle
 //need to declare starting a new path, otherwise will be connected to the previous line
@@ -133,7 +151,7 @@ function Circle (x, y, dx, dy, radius)
 
     this.draw = function ()
     {
-        console.log("circle object draw function has been called");
+      //  console.log("circle object draw function has been called");
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.strokeStyle = "blue";
@@ -142,9 +160,12 @@ function Circle (x, y, dx, dy, radius)
 
     }
 
+
+
+
     this.update = function(){
 
-        console.log('updatefunction called');
+       // console.log('updatefunction called');
         if (this.x + this.radius> innerWidth || this.x - this.radius < 0)
             {
                 this.dx = -this.dx;
@@ -159,8 +180,19 @@ function Circle (x, y, dx, dy, radius)
 
         //update the position of the circle x value
         this.x += this.dx;
-        console.log(dx +dx);
         this.y += this.dy;
+
+
+        //interactivity see if the circle is without 50 px of the circle
+        if(mouse.x - this.x <50 && mouse.x -this.x > -50 &&  mouse.y -this.y < 50 &&
+            mouse.y - this.y > -50
+         )
+        {
+            this.radius +=1
+        }
+
+
+
         this.draw();
     }
 
@@ -199,7 +231,7 @@ function animate_circle(){
     
     //circle_1.update();
     
-    console.log('animate function has been called');
+ //   console.log('animate function has been called');
 }
 
 animate_circle();
