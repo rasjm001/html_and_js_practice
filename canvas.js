@@ -4,6 +4,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 
+//variable c= logic and methods for drawing on canvas using canvas.getContext(2d)
 var c = canvas.getContext('2d');
 
 //to create a fill style for the rectangles- this will apply to all rectangle if no further fill styles are declared
@@ -43,11 +44,48 @@ c.strokeStyle = "#fa35e3";
 c.stroke();
 
 
-
+/*
 //create an arc or circle
-
 //need to declare starting a new path, otherwise will be connected to the previous line
 c.beginPath();
+
+//declare using c.arc 
 c.arc(500, 100, 50, 0, Math.PI * 2, false);
 c.strokeStyle = "blue";
+
+//create using the c.stroke
 c.stroke();
+
+*/
+
+
+//create simple for loop to create some circles at random locations
+for ( var i = 0; i< 300; i++){
+
+    console.log(random_colour_generator());
+    var x = Math.random() * window.innerWidth;
+    var y = Math.random() * window.innerHeight;
+
+    c.beginPath();
+
+    //declare using c.arc 
+    c.arc(x, y, 50, 0, Math.PI * 2, false);
+    c.strokeStyle = random_colour_generator();
+
+    //create using the c.stroke
+    c.stroke();
+}
+
+//function to return a randome hexideciaml value 
+
+
+function random_colour_generator(){
+var available_numbers = '0123456789abcdef';
+var colour_to_return = '#';
+for (var i = 0; i < 6; i++){
+colour_to_return += available_numbers[Math.floor(Math.random() *16)];
+
+}
+console.log(colour_to_return);
+return colour_to_return
+}
