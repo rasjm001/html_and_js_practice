@@ -62,10 +62,19 @@ c.stroke();
 
 
 
+/*
+var circle_x_value = Math.random() * innerWidth;
+var circle_y_value = Math.random() * innerHeight;
+
+// set random starting direction ( either l/r or u/d with +/- values)
+var x_velocity = (Math.random() - 0.5) * 15;
+var y_velocity = (Math.random() - 0.5) * 15;
+var circle_radius = 30;
+
+*/
 
 
-
-
+/*
 //create simple for loop to create some circles at random locations
 for ( var i = 0; i< 300; i++){
 
@@ -82,7 +91,7 @@ for ( var i = 0; i< 300; i++){
     //create using the c.stroke
     c.stroke();
 }
-
+*/
 //function to return a randome hexideciaml value 
 function random_colour_generator(){
 // string of possible hexidecimal numbers
@@ -101,61 +110,96 @@ console.log(colour_to_return);
 return colour_to_return
 }
 
-*/
+
 
 //create an arc or circle
 //need to declare starting a new path, otherwise will be connected to the previous line
 
 
 //variable for the x and y positions of the cirlce to animate
-var circle_x_value = 200;
-var circle_y_value = 200;
-var x_velocity = 10;
-var y_velocity = 10;
-var circle_radius = 30;
+
+//random starting point for the circle
+
+
+//create circle Object
+
+function Circle (x, y, dx, dy, radius)
+{
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+
+    this.draw = function ()
+    {
+        console.log("circle object draw function has been called");
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.strokeStyle = "blue";
+        c.stroke();
+
+
+    }
+
+    this.update = function(){
+
+        console.log('updatefunction called');
+        if (this.x + this.radius> innerWidth || this.x - this.radius < 0)
+            {
+                this.dx = -this.dx;
+        
+            }
+        
+        if ( this.y + this.radius >innerHeight || this.y - this.radius < 0)
+        {
+    
+            this.dy = -this.dy;
+        }
+
+        //update the position of the circle x value
+        this.x += this.dx;
+        console.log(dx +dx);
+        this.y += this.dy;
+        this.draw();
+    }
+
+}
+
+var circle_array = [];
+
+for (var i = 0; i < 50; i++){
+    var radius = 30;
+    var x = Math.random() *(innerWidth - radius * 2) + radius ;
+    var y = Math.random() *(innerHeight - radius *2) + radius;
+    var dx = (Math.random() - 0.5) * 2;
+    var dy = (Math.random() - 0.5) * 2;
+    
+    circle_array.push(new Circle(x, y, dx, dy, radius));
+}
+
+
+//var circle_1 = new Circle(300, 200, 40, 40, 50);
+
+
+
 
 //create the animation function
 function animate_circle(){
 
-    //clear the canvas prior to calling the arc each time ( otherwise circles draw ontop of each other)
-    //clearRect takes xpos, ypos, and dimenesion, use innerwidht and inner height to clear whole canvas
-    c.clearRect(0,0, innerWidth, innerHeight);
-
-    //create a loop by creating the requestAnimationFrame function and call the parent function
+    
     requestAnimationFrame(animate_circle);
 
-    c.beginPath();
-
-    //declare using c.arc 
-    c.arc(circle_x_value, circle_y_value, circle_radius, 0, Math.PI * 2, false);
-    c.strokeStyle = "blue";
-
-    //create using the c.stroke
-    c.stroke();
-
-    if (circle_x_value + circle_radius> innerWidth || circle_x_value - circle_radius < 0)
-    {
-        x_velocity = -x_velocity;
-
-    }
-
-    if ( circle_y_value + circle_radius >innerHeight || circle_y_value - circle_radius < 0)
-    {
-
-        y_velocity = -y_velocity;
-    }
-    //update the position of the circle x value
-    circle_x_value += x_velocity;
-    circle_y_value += y_velocity;
-
-
-
-
-
-
-
-
+    c.clearRect(0,0, innerWidth, innerHeight);
+   
+    for (var i = 0; i < circle_array.length; i ++)
+        {
+            circle_array[i].update();
+        }
+    
+    //circle_1.update();
+    
     console.log('animate function has been called');
 }
 
-//animate_circle();
+animate_circle();
