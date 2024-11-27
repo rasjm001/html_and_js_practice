@@ -1,5 +1,7 @@
 //console.log('utilising this canvas')
 var canvas = document.querySelector('canvas');
+
+// set the initial canvas width ( is based on the window size- and it update with the event listener below)
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -94,32 +96,44 @@ for ( var i = 0; i< 300; i++){
 */
 //function to return a randome hexideciaml value 
 function random_colour_generator(){
-// string of possible hexidecimal numbers
-var available_numbers = '0123456789abcdef';
+    // string of possible hexidecimal numbers
+    var available_numbers = '0123456789abcdef';
 
-//variable for the string to return
-var colour_to_return = '#';
+    //variable for the string to return
+    var colour_to_return = '#';
 
-//function to add a random str(0) from the available numbers
-for (var i = 0; i < 6; i++){
-colour_to_return += available_numbers[Math.floor(Math.random() *16)];
+    //function to add a random str(0) from the available numbers
+    for (var i = 0; i < 6; i++){
+        colour_to_return += available_numbers[Math.floor(Math.random() *16)];
 
+    }
+
+   // console.log(colour_to_return);
+    return colour_to_return
 }
 
-console.log(colour_to_return);
-return colour_to_return
-}
-
-
+//variable that is used to store the mouse location from the mousemove event listener
 var mouse = {
     x: undefined,
     y: undefined
 }
 
+//min and max radius values for the cirles
+max_radius = 40;
+min_radius = 2;
+
+
 window.addEventListener('mousemove', function(event){
 mouse.x = event.x;
 mouse.y = event.y;
 //console.log(mouse);
+})
+
+
+//event listener to resize the canvas when the window is changed
+window.addEventListener("resize", function(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 })
 
 
@@ -148,13 +162,20 @@ function Circle (x, y, dx, dy, radius)
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
+    this.min_radius = radius;
+    //this.colour - colour_array( Math.Floor(Math.random()* colour_array.length) )
+    this.colour = random_colour_generator();
+   // console.log("thiscolour", this.colour)
 
     this.draw = function ()
     {
       //  console.log("circle object draw function has been called");
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        c.strokeStyle = "blue";
+        c.fillStyle = this.colour
+        c.fill()
+       // console.log("c.fillstype", c.fillStyle)
+       // c.strokeStyle = "blue";
         c.stroke();
 
 
@@ -188,7 +209,15 @@ function Circle (x, y, dx, dy, radius)
             mouse.y - this.y > -50
          )
         {
-            this.radius +=1
+            if (this.radius <max_radius)
+            {
+                this.radius +=1
+            }
+            
+        }
+        else if (this.radius > this.min_radius ){
+
+            this.radius -= 1;
         }
 
 
@@ -200,22 +229,23 @@ function Circle (x, y, dx, dy, radius)
 
 var circle_array = [];
 
-for (var i = 0; i < 50; i++){
-    var radius = 30;
-    var x = Math.random() *(innerWidth - radius * 2) + radius ;
-    var y = Math.random() *(innerHeight - radius *2) + radius;
-    var dx = (Math.random() - 0.5) * 2;
-    var dy = (Math.random() - 0.5) * 2;
+
+
+function init()
+{   console.log("initi called");
+    circle_array = [];
     
-    circle_array.push(new Circle(x, y, dx, dy, radius));
+    for (var i = 0; i < 200; i++){
+        var radius = Math.random() * 5 + 1;
+        var x = Math.random() *(innerWidth - radius * 2) + radius ;
+        var y = Math.random() *(innerHeight - radius *2) + radius;
+        var dx = (Math.random() - 0.5) * 2;
+        var dy = (Math.random() - 0.5) * 2;
+        
+        circle_array.push(new Circle(x, y, dx, dy, radius));
+    }
+
 }
-
-
-//var circle_1 = new Circle(300, 200, 40, 40, 50);
-
-
-
-
 //create the animation function
 function animate_circle(){
 
@@ -233,5 +263,5 @@ function animate_circle(){
     
  //   console.log('animate function has been called');
 }
-
+init();
 animate_circle();
