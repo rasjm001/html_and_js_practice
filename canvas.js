@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 
 //variable c= logic and methods for drawing on canvas using canvas.getContext(2d)
 var c = canvas.getContext('2d');
-
+/*
 //to create a fill style for the rectangles- this will apply to all rectangle if no further fill styles are declared
 
 c.fillStyle = 'rgba(250, 0, 0, 0.4';
@@ -44,6 +44,10 @@ c.strokeStyle = "#fa35e3";
 c.stroke();
 
 
+
+
+// to create an arc or Circle
+
 /*
 //create an arc or circle
 //need to declare starting a new path, otherwise will be connected to the previous line
@@ -56,13 +60,16 @@ c.strokeStyle = "blue";
 //create using the c.stroke
 c.stroke();
 
-*/
+
+
+
+
 
 
 //create simple for loop to create some circles at random locations
 for ( var i = 0; i< 300; i++){
 
-    console.log(random_colour_generator());
+    //console.log(random_colour_generator());
     var x = Math.random() * window.innerWidth;
     var y = Math.random() * window.innerHeight;
 
@@ -77,15 +84,78 @@ for ( var i = 0; i< 300; i++){
 }
 
 //function to return a randome hexideciaml value 
-
-
 function random_colour_generator(){
+// string of possible hexidecimal numbers
 var available_numbers = '0123456789abcdef';
+
+//variable for the string to return
 var colour_to_return = '#';
+
+//function to add a random str(0) from the available numbers
 for (var i = 0; i < 6; i++){
 colour_to_return += available_numbers[Math.floor(Math.random() *16)];
 
 }
+
 console.log(colour_to_return);
 return colour_to_return
 }
+
+*/
+
+//create an arc or circle
+//need to declare starting a new path, otherwise will be connected to the previous line
+
+
+//variable for the x and y positions of the cirlce to animate
+var circle_x_value = 200;
+var circle_y_value = 200;
+var x_velocity = 10;
+var y_velocity = 10;
+var circle_radius = 30;
+
+//create the animation function
+function animate_circle(){
+
+    //clear the canvas prior to calling the arc each time ( otherwise circles draw ontop of each other)
+    //clearRect takes xpos, ypos, and dimenesion, use innerwidht and inner height to clear whole canvas
+    c.clearRect(0,0, innerWidth, innerHeight);
+
+    //create a loop by creating the requestAnimationFrame function and call the parent function
+    requestAnimationFrame(animate_circle);
+
+    c.beginPath();
+
+    //declare using c.arc 
+    c.arc(circle_x_value, circle_y_value, circle_radius, 0, Math.PI * 2, false);
+    c.strokeStyle = "blue";
+
+    //create using the c.stroke
+    c.stroke();
+
+    if (circle_x_value + circle_radius> innerWidth || circle_x_value - circle_radius < 0)
+    {
+        x_velocity = -x_velocity;
+
+    }
+
+    if ( circle_y_value + circle_radius >innerHeight || circle_y_value - circle_radius < 0)
+    {
+
+        y_velocity = -y_velocity;
+    }
+    //update the position of the circle x value
+    circle_x_value += x_velocity;
+    circle_y_value += y_velocity;
+
+
+
+
+
+
+
+
+    console.log('animate function has been called');
+}
+
+//animate_circle();
