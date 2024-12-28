@@ -11,8 +11,29 @@
             margin: 0;
         }
     </style>
+
+    <!-- link to css page with top bar navigation-->
+    <link rel = "stylesheet" href="../HomePage/main_css.css">
+
+    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <!--Top navigation bar-->
+
+    <div class="topnav" id="myTopnav">
+        <a href="../HomePage/main_html.html" class="active">Home</a> 
+        <a href="../project_one_simple_tutorial/index.html"> Bouncing Balls </a>
+        <a href="../whack_a_mole/index.html"> Whack a Mole </a>
+        <a href="../SimpleGame/Index.html"> Defence Game</a>
+        <!-- <a href="../Demo_3/Index.html"> Demo_3</a> -->
+        <a href ="../Capstone Project 1/capstone_project.html"> Capstone Project</a>
+        <a href="javascript:void(0);" class="icon" onclick="topbar_navigation_function()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+
+
     <canvas>    
     </canvas>
     <script src = "canvas.js"></script>
